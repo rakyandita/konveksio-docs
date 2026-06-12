@@ -18,14 +18,14 @@
     │
     └── Belum pernah login ──→ [Tampilkan Form Login]
                                     │
-                                    ├── Input Email + Password/PIN
+                                    ├── Input Email / No. WA + Password / PIN (dilengkapi ikon mata)
                                     │
                                     ├── [Validasi Server]
                                     │      │
                                     │      ├── Valid → [Tawarkan Setup Biometrik]
                                     │      │              │
-                                    │      │              ├── Ya → [Simpan, Masuk ke Dashboard]
-                                    │      │              └── Nanti → [Masuk ke Dashboard]
+                                    │      │              ├── Ya (Wajib) → [Simpan, Masuk ke Dashboard]
+                                    │      │              └── Lewati sementara → [Masuk ke Dashboard]
                                     │      │
                                     │      └── Invalid → [Tampilkan Error, Ulangi]
                                     │
@@ -128,10 +128,18 @@
         │
         │ ← Admin input pembayaran pelunasan
         ▼
+        ▼
         [PELUNASAN]
         │
         ▼
         [SELESAI]
+        
+    └── Case C (Pembatalan Order):
+        │
+        ▼
+        [DIBATALKAN]
+        - Uang DP hangus.
+        - Gaji karyawan yang sudah bekerja tetap dicairkan.
 ```
 
 ### Status di Public Link (Simplified untuk Pelanggan):
@@ -168,6 +176,11 @@ Pending → Diproduksi → Finishing / Siap Kirim → Selesai
     ├── [Kerjakan] → Update progress secara parsial:
     │   ├── "Saya sudah potong size S: 20pcs, size M: 10pcs"
     │   └── [Simpan Progress]
+    │
+    ├── [Rework/Reject] → Jika ada barang cacat dari QC:
+    │   ├── QC/Admin mencatat jumlah cacat (misal: 2 pcs)
+    │   ├── Set flag: [Paid Rework] (Kain cacat = gaji nambah) atau [Unpaid Rework] (Human error = tanpa gaji tambahan)
+    │   └── Karyawan terkait wajib memperbaiki.
     │
     └── [Handover ke Proses Berikutnya]
         │
@@ -208,8 +221,8 @@ Pending → Diproduksi → Finishing / Siap Kirim → Selesai
     │
     ├── Jumlah: Rp [________]
     ├── Tanggal bayar: [__/__/____]
-    ├── Metode: [Transfer BCA] [Transfer Mandiri] [Transfer BRI] [Cash]
-    ├── Bukti transfer (upload foto) [opsional]
+    ├── Metode: [Transfer BCA] [Transfer Mandiri] [Cash] (Configurable per cabang)
+    ├── Bukti transfer / Kuitansi (Wajib upload foto/file)
     ├── Catatan [opsional]
     │
     └── [Simpan]
@@ -218,9 +231,8 @@ Pending → Diproduksi → Finishing / Siap Kirim → Selesai
         ├── Sisa tagihan otomatis terhitung
         ├── Status invoice terupdate (Belum Lunas / Sebagian / Lunas)
         ├── Public link terupdate
-        └── [Kirim notifikasi WA ke pelanggan?]
-            ├── Ya → "Pembayaran [jenis] sebesar Rp[jumlah] telah kami terima. Sisa: Rp[sisa]. Cek detail: [public_link]"
-            └── Tidak → Selesai
+        └── [Opsi Kirim Link]
+            └── Admin membagikan public link secara manual via WA ke pelanggan
 ```
 
 ---
@@ -415,7 +427,7 @@ Pending → Diproduksi → Finishing / Siap Kirim → Selesai
     │       │
     │       ├── Status order → DIKIRIM
     │       ├── Public link terupdate
-    │       └── 🔔 WA ke pelanggan: "Pesanan Anda telah dikirim! [detail tracking]. Cek: [public_link]"
+    │       └── Admin membagikan public link secara manual ke pelanggan via WA
     │
     └── [Konfirmasi Selesai] (setelah pelanggan terima)
         │

@@ -275,10 +275,10 @@ Saat FAB ditekan, muncul menu expandable:
 └── Konfigurasi Sistem
     ├── 🏛️ Pengaturan Cabang (Super Admin only)
     │   ├── Daftar cabang
-    │   └── [+ Tambah Cabang]
-    ├── 🧾 Pengaturan Invoice
-    │   ├── Info perusahaan & format invoice
-    │   └── Rekening pembayaran
+    │   ├── [+ Tambah Cabang]
+    │   └── Detail Cabang (Atur Alamat, Kontak Telepon, Email, Info Invoice spesifik per cabang)
+    ├── 🧾 Pengaturan Rekening
+    │   └── Rekening pembayaran per cabang
     └── 👥 Kelola User & Role (Super Admin only)
 ```
 ```
@@ -449,19 +449,20 @@ graph TD
 
 | Entitas | Field Kunci |
 |---|---|
-| **Cabang** | id, nama, alamat, periode_gajian, hari_gajian |
-| **Karyawan** | id, nama, email, pin, kontak, posisi, **cabang_id**, role, status_aktif |
+| **Cabang** | id, nama, alamat, telepon, email_cabang, info_invoice, periode_gajian, hari_gajian |
+| **Karyawan** | id, nama, email, pin, no_whatsapp, kontak, posisi, **cabang_id**, role, status_aktif |
 | **Pelanggan** | id, **cabang_id**, nama, instansi, whatsapp, telepon, email, alamat |
 | **Vendor** | id, **cabang_id**, nama, kontak, alamat, kategori[], tarif_layanan[] |
 | **Produk** | id, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
-| **Order** | id, nomor_order, pelanggan_id, **cabang_id**, status, tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
+| **Order** | id, nomor_order, pelanggan_id, **cabang_id**, status (termasuk CANCELLED), tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
 | **Order Item (SPK)** | id, order_id, produk_id, parent_bundle_id, no_spk, qty_s, qty_m, qty_l, qty_xl, qty_custom, bahan, warna, harga_satuan, desain_file, status |
-| **Tahap Produksi** | id, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, status, tarif_aktual, vendor_id |
+| **Tahap Produksi** | id, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, qty_reject, status, tarif_aktual, vendor_id |
 | **Porsi Pekerjaan** | id, tahap_produksi_id, karyawan_id, qty_assigned |
-| **Log Handover** | id, tahap_dari_id, tahap_ke_id, karyawan_id, qty_per_size{}, catatan, timestamp |
-| **Pembayaran** | id, order_id, jenis(DP/cicilan/pelunasan), jumlah, tanggal, metode, bukti_file, catatan |
+| **Log Handover** | id, tahap_dari_id, tahap_ke_id, karyawan_id, qty_per_size{}, qty_reject, is_paid_rework, catatan, timestamp |
+| **Pembayaran** | id, order_id, jenis(DP/cicilan/pelunasan), jumlah, tanggal, metode, file_kuitansi, catatan |
 | **Invoice** | id, order_id, nomor_invoice, public_link_code, qr_code, tanda_tangan, status |
 | **Kasbon** | id, karyawan_id, jumlah, keperluan, status(pending/approved/rejected), approved_by, tanggal |
+| **Pengeluaran** | id, **cabang_id**, kategori, jumlah, tanggal, deskripsi, vendor_id (opsional) |
 | **Pengiriman** | id, order_id, metode, nama_ekspedisi, nomor_resi, ongkir, tanggal_kirim, penerima |
 | **Transaksi Antar Cabang** | id, cabang_asal_id, cabang_tujuan_id, jenis, items[], total, tanggal |
 | **Notifikasi** | id, user_id, jenis, judul, pesan, is_read, data_ref, timestamp |
@@ -511,7 +512,7 @@ graph TD
 
 ### 7.2 Sync Strategy
 - **Sync interval:** Setiap kali app dibuka + pull-to-refresh manual
-- **Conflict resolution:** Server timestamp wins (last-write-wins)
+- **Conflict resolution:** Additive Sync (penjumlahan data qty untuk progress) guna mencegah bentrok *race condition*, bukan *last-write-wins*
 - **Queue:** Aksi offline (handover, update progress) masuk ke queue lokal, di-sync saat online
 - **Indicator:** Tampilkan badge "Offline" di app bar saat tidak ada koneksi
 

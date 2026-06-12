@@ -52,11 +52,12 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 - Setiap tahap produksi punya tarif berbeda per jenis produk
 - Contoh tarif: potong kaos Rp1.000/pcs, potong kemeja Rp2.000/pcs, potong jas Rp3.000/pcs, jahit kaos Rp2.500/pcs, lubang kancing Rp500/pcs, pasang kancing Rp300/pcs
 
-#### Cabang Solo (Partner CMT)
-- Diperlakukan sebagai **vendor**
-- Sistem bayar CMT (Cutting Modelling Trimming) per pcs × qty
-- Contoh: 100pcs seragam batik × Rp7.000 CMT = Rp700.000 (sampai packing & siap kirim)
-- SPV cabang Solo mengatur distribusi gaji ke karyawannya sendiri
+#### Cabang Solo
+- Beroperasi sebagai cabang utuh (memiliki pelanggan sendiri, transaksi mandiri, dsb.)
+- Juga bertindak sebagai **suplier/vendor** untuk Serang (seragam batik jadi, bahan batik, topi, sabuk)
+- Sistem bayar produksi tetap borongan / CMT (Cutting Modelling Trimming) per pcs × qty
+- Terdapat SPV dan ~5 karyawan yang mengurus produksi.
+- Karyawan Solo dikelola *di luar sistem Konveksio* (gaji dibagi manual oleh SPV). Di dalam sistem, SPV Solo diberikan akses setara "Staff Produksi".
 
 ### 2.2 Transaksi Antar Cabang
 - Cabang Serang sering beli dari Solo: seragam batik jadi, bahan batik, topi, sabuk
@@ -82,15 +83,16 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - Tanggal pembuatan nota (auto-generate + editable)
   - Nama pelanggan, nama instansi/organisasi (opsional) & kontak (WA/telepon) — pilih dari database atau input baru
   - Jenis produk (pilih dari katalog, input custom, atau **Produk Bundle**)
-  - Qty per size (S, M, L, XL, XXL, 3XL, 4XL, Custom)
+  - Qty per size (S, M, L, XL, XXL, 3XL, 4XL, Custom). *Catatan: Qty pesanan bisa di-edit bertambah di tengah proses produksi.*
   - Bahan dan warna yang digunakan
   - Deadline / tanggal pengiriman
   - Harga satuan & total
   - Catatan khusus / instruksi tambahan
   - Upload file desain (gambar/PDF)
 - **Produk Bundle (Setelan):** Jika memilih produk bertipe bundle (misal: "Seragam Pramuka"), sistem otomatis men-*expand* menjadi beberapa sub-item pesanan (misal: "Kemeja" dan "Celana"), masing-masing memiliki SPK dan jalur produksi terpisah, namun di invoice pelanggan tetap tampil sebagai 1 item "Seragam Pramuka".
-- **Status Order:** Pending → DP Diterima → Diproduksi → Siap Kirim → Pelunasan → Dikirim → Selesai
-  - Catatan: case tertentu bisa kirim dulu baru pelunasan
+- **Status Order:** Pending → DP Diterima → Diproduksi → Siap Kirim → Pelunasan → Dikirim → Selesai → Dibatalkan
+  - Catatan: Pembayaran sangat fleksibel (bisa mulai produksi tanpa DP, bisa lunas di awal, atau kirim dulu baru pelunasan).
+  - Jika Dibatalkan: Uang DP hangus, karyawan yang telanjur bekerja tetap dibayarkan gajinya.
 - **Pencarian & Filter:** berdasarkan status, pelanggan, tanggal, cabang
 - **Persiapan Produksi:** Status pesanan "Pending" tidak otomatis masuk produksi. Admin harus menekan tombol "Persiapan Produksi" yang terdapat pada **setiap kartu item pesanan** (di halaman Detail Order) untuk mengatur tahapan produksi, tarif jasa, dan men-*generate* SPK per item pesanan. Jika pesanan bertipe Bundle/Setelan, maka setiap komponen anak harus dilakukan Persiapan Produksi secara independen.
 
@@ -110,7 +112,8 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 - **Role-Based Task View:** Karyawan hanya melihat tugas (antrean produksi) yang sesuai dengan *divisi* mereka (misal: Tukang Potong hanya melihat antrean Potong).
 - **Sistem Keroyokan (Multi-worker):** Tugas dalam satu tahap (misal jahit 100 pcs) bisa dibagi porsinya ke beberapa karyawan (misal 30 pcs untuk A, 70 pcs untuk B) oleh Boss Cabang / Tukang Potong.
 - **Handover Parsial per Size:** Saat menyerahkan hasil kerja ke tahap berikutnya, form akan memecah data berdasarkan jumlah *size* (S, M, L, XL) yang sudah selesai, beserta siapa yang mengerjakannya.
-- **Kirim/Terima Vendor:** Untuk tahap Sablon/Bordir yang dilakukan vendor, Admin atau Tukang Potong mencatat "Kirim ke Vendor" dan "Terima dari Vendor" di aplikasi.
+- **Log Rework/Reject:** Saat ada barang cacat (QC), dikembalikan untuk diperbaiki (Rework). Ada dua tipe Rework: (1) Paid Rework (reject karena kain cacat, gaji ditambah), (2) Unpaid Rework (karena human error, wajib perbaiki tanpa tambahan gaji).
+- **Kirim/Terima Vendor:** Untuk tahap Sablon/Bordir, atau jika CMT sedang *overload*, order bisa dilempar ke vendor luar. Admin mencatat "Kirim ke Vendor" dan "Terima dari Vendor" di aplikasi.
 - **Pause/Switch Order:** Karyawan dapat menunda (pause) pekerjaannya untuk mengerjakan order prioritas/VIP lain.
 - **Edit Tahap Berjalan:** Admin bisa menambah atau menghapus tahapan (misal: kelupaan tahap Setrika) meskipun proses produksi sudah berjalan.
 
@@ -120,6 +123,7 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - Tarif Sablon/Bordir bersifat input manual per desain (karena tergantung kerumitan/warna).
   - Tarif Finishing (setrika, kancing, packing) bersifat harga *flat*.
 - **Override Harga Aktual:** Saat rilis produksi, admin bisa meng-edit tarif dari master data khusus untuk order tersebut.
+- **Kalkulator Biaya Bahan (MVP):** Di form Persiapan Produksi, admin meng-input Biaya Bahan Baku dibantu dengan kalkulator sederhana (Kebutuhan bahan per pcs × harga satuan × qty order) karena modul stok belum tersedia di Fase 1.
 - **Kalkulasi HPP otomatis:** Total HPP = Σ (tarif per tahap × qty aktual yang dikerjakan) + biaya bahan + biaya vendor.
 - **Margin & harga jual:** Tampilkan selisih antara HPP vs harga jual.
 
@@ -136,6 +140,8 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - QR code → link ke public link invoice
 - **Download PDF**
 - **Sistem pembayaran bertahap:** DP → Cicilan (opsional, bisa lebih dari 1) → Pelunasan
+  - Wajib melampirkan kuitansi / bukti terima uang dari admin di setiap histori pembayaran.
+- **Pengaturan Rekening:** Admin dapat mengatur (tambah/hapus) rekening tujuan transfer (BCA, Mandiri, Cash, dll.) yang bersifat spesifik **per cabang**.
 - **Public Link Invoice:**
   - Bisa diakses pelanggan tanpa login
   - Menampilkan: detail pesanan, status pembayaran, status produksi (Pending → Diproduksi → Siap Kirim → Selesai), riwayat pembayaran
@@ -156,7 +162,7 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 
 #### M-08: Laporan Keuangan
 - **Laporan pendapatan:** Per periode (harian, mingguan, bulanan)
-- **Laporan pengeluaran:** Gaji karyawan, pembayaran vendor, operasional
+- **Laporan pengeluaran:** Gaji karyawan, operasional, dan **pembayaran vendor** (termasuk tagihan per vendor)
 - **Laporan profit:** Pendapatan - Pengeluaran
 - **Filter per cabang** (untuk Super Admin)
 - **Export laporan** (PDF/Excel)
@@ -179,7 +185,7 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - Push notification ke boss cabang / super admin untuk approval
   - Notifikasi ke karyawan jika disetujui/ditolak
   - Riwayat kasbon & saldo kasbon
-  - Potong dari gaji otomatis
+  - Potong dari gaji otomatis. **Catatan:** Jika kasbon melebihi gaji mingguan, sisa utang otomatis di-*carry over* ke minggu berikutnya.
 
 #### M-10: Notifikasi
 - **Push Notification (in-app via FCM):**
@@ -187,9 +193,6 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - Deadline mendekat: H-3 dan H-1
   - Kasbon diajukan (ke approver)
   - Kasbon di-approve/ditolak (ke karyawan)
-- **WhatsApp Notification (ke pelanggan):**
-  - Update status pesanan (Diproduksi → Siap Kirim → Dikirim)
-  - Link invoice / public link
 
 #### M-11: Katalog Produk & Bundle
 - **Produk standar yang tersedia:**
@@ -221,6 +224,7 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 | F2-04 | Customer Portal | Pelanggan bisa login untuk lihat semua ordernya |
 | F2-05 | Integrasi Ekspedisi | Auto cek ongkir & tracking via API (RajaOngkir) |
 | F2-06 | Auto-Update Aplikasi | Update OTA menggunakan Shorebird agar app update otomatis tanpa reinstall APK |
+| F2-07 | Notifikasi WhatsApp | Integrasi otomatisasi WA API ke pelanggan (ditunda dari MVP untuk memitigasi blokir) |
 
 ---
 

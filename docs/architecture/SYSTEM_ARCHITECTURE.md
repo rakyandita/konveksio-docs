@@ -33,9 +33,10 @@
 
 ## 6.4 Offline Support
 
+- **Status:** CRITICAL (wajib berjalan lancar karena sinyal buruk di pabrik Serang)
 - Data tugas produksi tersimpan lokal (SQLite/Hive di Flutter)
 - Sinkronisasi otomatis saat kembali online
-- Conflict resolution: last-write-wins dengan timestamp
+- **Conflict resolution:** Menggunakan **Additive Sync** (penjumlahan data qty untuk progress, contoh: A tambah 20, B tambah 30, total 50) untuk mencegah *race condition* atau data tertimpa jika menggunakan metode *last-write-wins*.
 
 ---
 
@@ -50,10 +51,11 @@
 ## 7. Constraint & Asumsi
 
 ### Constraint
-1. Budget hosting terbatas (Rp500rb/tahun untuk tahap awal)
+1. Budget hosting terbatas (Rp500rb/tahun untuk tahap awal, space ~7GB)
 2. Shared hosting tidak bisa run queue worker 24/7 → gunakan cron job sebagai alternatif
 3. Karyawan lapangan mungkin punya device dengan spek rendah → app harus ringan
-4. Sinyal internet di area produksi bisa tidak stabil → butuh offline support
+4. Sinyal internet di area produksi sangat buruk → butuh offline support yang solid (CRITICAL)
+5. **Storage Media:** Wajib implementasi kompresi gambar (*image compression*) agresif di sisi Mobile App (Flutter) sebelum di-upload. Disarankan menggunakan arsitektur Hybrid Storage (menggabungkan hosting lokal dan CDN gratis).
 
 ### Asumsi
 1. Semua karyawan memiliki smartphone Android/iOS

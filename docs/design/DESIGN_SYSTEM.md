@@ -107,6 +107,7 @@ background: linear-gradient(180deg, #ECFDF5 0%, #FFFFFF 100%);
 | Pelunasan | `#FEF3C7` | `#92400E` | Kuning |
 | Dikirim | `#CFFAFE` | `#155E75` | Cyan |
 | Selesai | `#D1FAE5` | `#065F46` | Hijau (bold) |
+| Dibatalkan | `#F3F4F6` | `#4B5563` | Abu-abu |
 | Overdue | `#FEE2E2` | `#991B1B` | Merah |
 
 ---
@@ -284,6 +285,7 @@ Focus Shadow: 0 0 0 3px rgba(16, 185, 129, 0.15)
 Error Border: 1.5px solid #EF4444
 Label: 13px SemiBold, #4B5563, margin-bottom 6px
 Helper Text: 12px Regular, #9CA3AF, margin-top 4px
+Password/PIN Field: Wajib menyertakan icon mata (Eye visibility toggle) di sebelah kanan input.
 ```
 
 ### 5.4 Status Badge / Chip
