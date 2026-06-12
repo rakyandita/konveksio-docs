@@ -34,32 +34,34 @@ _"Kelola Konveksi Tanpa Ribet"_
 
 ## 2. Color Palette
 
-### 2.1 Warna Utama (Primary — Emerald Green)
+> 💡 **Mode Tampilan:** Aplikasi ini secara eksklusif menggunakan **Light Mode (Mode Terang)**. Dark Mode (Mode Gelap) TIDAK DIDUKUNG di MVP maupun Fase 2 demi menjaga kesederhanaan dan kecepatan *development*.
+
+### 2.1 Warna Utama (Primary — Biru Tosca / Blue Emerald)
 
 | Token | Hex | Penggunaan |
 |---|---|---|
-| `--color-primary-50` | `#ECFDF5` | Background highlight, badge light |
-| `--color-primary-100` | `#D1FAE5` | Background card aktif, chip |
-| `--color-primary-200` | `#A7F3D0` | Border hover, progress bar background |
-| `--color-primary-300` | `#6EE7B7` | Icon secondary, divider aktif |
-| `--color-primary-400` | `#34D399` | Button hover, link hover |
-| `--color-primary-500` | `#00AA13` | **Primary button, FAB, active nav (Gojek Emerald)** |
-| `--color-primary-600` | `#00875A` | **Primary dark, pressed state (Emerald Gelap)** |
-| `--color-primary-700` | `#006644` | **Header gradient end, deep state** |
-| `--color-primary-800` | `#065F46` | Text on light, badge dark |
-| `--color-primary-900` | `#064E3B` | Heading emphasis |
+| `--color-primary-50` | `#F0FDFA` | Background highlight, badge light |
+| `--color-primary-100` | `#CCFBF1` | Background card aktif, chip |
+| `--color-primary-200` | `#99F6E4` | Border hover, progress bar background |
+| `--color-primary-300` | `#5EEAD4` | Icon secondary, divider aktif |
+| `--color-primary-400` | `#2DD4BF` | Button hover, link hover |
+| `--color-primary-500` | `#14B8A6` | **Primary button, FAB, active nav (Biru Tosca)** |
+| `--color-primary-600` | `#0D9488` | **Primary dark, pressed state (Tosca Gelap)** |
+| `--color-primary-700` | `#0F766E` | **Header gradient end, deep state** |
+| `--color-primary-800` | `#115E59` | Text on light, badge dark |
+| `--color-primary-900` | `#134E4A` | Heading emphasis |
 
 ### 2.2 Gradien Utama
 
 ```css
 /* Primary Gradient — untuk header, FAB, CTA */
-background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
+background: linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #14B8A6 100%);
 
 /* Shadow Gradient — untuk card elevation */
-box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);
+box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
 
 /* Subtle Gradient — untuk background section */
-background: linear-gradient(180deg, #ECFDF5 0%, #FFFFFF 100%);
+background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
 ```
 
 ### 2.3 Warna Netral
@@ -190,12 +192,12 @@ background: linear-gradient(180deg, #ECFDF5 0%, #FFFFFF 100%);
 
 #### Primary Button
 ```
-Background: linear-gradient(135deg, #059669, #10B981)
+Background: linear-gradient(135deg, #0F766E, #14B8A6)
 Text: #FFFFFF, 14px SemiBold
 Border Radius: 12px
 Height: 48px
 Padding: 0 24px
-Shadow: 0 4px 14px rgba(5, 150, 105, 0.25)
+Shadow: 0 4px 14px rgba(13, 148, 136, 0.25)
 Pressed: darken 10%, shadow removed
 Disabled: opacity 0.4
 ```
@@ -203,19 +205,19 @@ Disabled: opacity 0.4
 #### Secondary Button
 ```
 Background: #FFFFFF
-Border: 1.5px solid #10B981
-Text: #059669, 14px SemiBold
+Border: 1.5px solid #14B8A6
+Text: #0F766E, 14px SemiBold
 Border Radius: 12px
 Height: 48px
-Pressed: background #ECFDF5
+Pressed: background #F0FDFA
 ```
 
 #### Ghost Button
 ```
 Background: transparent
-Text: #059669, 14px SemiBold
+Text: #0F766E, 14px SemiBold
 Height: 48px
-Pressed: background #ECFDF5
+Pressed: background #F0FDFA
 ```
 
 #### Danger Button
@@ -280,8 +282,8 @@ Height: 48px
 Padding: 0 16px
 Font: 14px Regular, #1F2937
 Placeholder: 14px Regular, #9CA3AF
-Focus Border: 1.5px solid #10B981
-Focus Shadow: 0 0 0 3px rgba(16, 185, 129, 0.15)
+Focus Border: 1.5px solid #14B8A6
+Focus Shadow: 0 0 0 3px rgba(20, 184, 166, 0.15)
 Error Border: 1.5px solid #EF4444
 Label: 13px SemiBold, #4B5563, margin-bottom 6px
 Helper Text: 12px Regular, #9CA3AF, margin-top 4px
@@ -306,8 +308,8 @@ Shadow: 0 -1px 3px rgba(0, 0, 0, 0.08)
 Border Top: none
 
 Item Active:
-  Icon: #059669 (filled)
-  Label: 11px SemiBold, #059669
+  Icon: #0D9488 (filled)
+  Label: 11px SemiBold, #0D9488
 
 Item Inactive:
   Icon: #9CA3AF (outlined)
@@ -325,9 +327,9 @@ Tab Items (4 items):
 ```
 Size: 56px × 56px
 Border Radius: 16px
-Background: linear-gradient(135deg, #059669, #10B981)
+Background: linear-gradient(135deg, #0F766E, #14B8A6)
 Icon: + (white, 24px)
-Shadow: 0 6px 20px rgba(5, 150, 105, 0.35)
+Shadow: 0 6px 20px rgba(13, 148, 136, 0.35)
 Position: bottom-right, 16px dari edge, 80px dari bottom
 Pressed: scale(0.95), shadow reduced
 
@@ -350,10 +352,10 @@ Action Icons: #374151, 24px
 
 Variasi — **Greeting Header (Dashboard):**
 ```
-Background: linear-gradient(135deg, #059669 0%, #047857 100%)
+Background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%)
 Height: auto (content-based)
 Text Greeting: "Selamat Pagi, [Nama]" — 16px Regular, #FFFFFF
-Text Role: "Super Admin • Cabang Serang" — 13px Regular, #A7F3D0
+Text Role: "Super Admin • Cabang Serang" — 13px Regular, #99F6E4
 ```
 
 ### 5.8 Empty State
@@ -374,12 +376,12 @@ Track:
   Border Radius: 4px
 
 Fill:
-  Background: linear-gradient(90deg, #059669, #34D399)
+  Background: linear-gradient(90deg, #0F766E, #2DD4BF)
   Border Radius: 4px
   Animation: width transition 300ms ease
 
 Label:
-  "[X]%" — 13px SemiBold, #059669
+  "[X]%" — 13px SemiBold, #0F766E
   "[120/200 pcs]" — 12px Regular, #6B7280
 ```
 
@@ -485,15 +487,15 @@ Border Radius: mengikuti komponen asli
 
 ### 8.1 Style
 - **Ilustrasi:** Flat illustration style, menggunakan warna primary palette
-- **Empty state:** Ilustrasi sederhana (line art) + warna emerald
-- **Avatar default:** Inisial nama dengan background gradient emerald
+- **Empty state:** Ilustrasi sederhana (line art) + warna tosca
+- **Avatar default:** Inisial nama dengan background gradient tosca
 - **Foto produk:** Aspect ratio 1:1, border-radius 12px
 
 ### 8.2 Avatar
 ```
 Size: 40px × 40px (list), 48px × 48px (detail), 80px × 80px (profil)
 Border Radius: 50% (circle)
-Background: linear-gradient(135deg, #059669, #34D399)
+Background: linear-gradient(135deg, #0F766E, #2DD4BF)
 Text: Inisial, 16px Bold, #FFFFFF
 ```
 

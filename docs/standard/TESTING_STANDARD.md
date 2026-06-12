@@ -22,6 +22,10 @@
   ```
   untuk memverifikasi SQL yang dihasilkan sebelum menjalankan migrasi sesungguhnya.
 
+### Automated Unit Test (Wajib untuk Finansial)
+- Setiap fitur yang menyangkut uang, seperti **Kalkulasi Gaji Borongan**, **Kasbon**, **Potongan**, atau **Kalkulator HPP**, **WAJIB** dibuatkan *Automated Unit Test* (menggunakan PHPUnit untuk Laravel).
+- Test harus mencakup skenario normal, skenario batas (edge cases), dan skenario *error*.
+
 ---
 
 ## Aturan Testing Flutter UI
@@ -41,10 +45,19 @@
 
 ---
 
+## Verifikasi Ketat (Zero Error Policy)
+
+- **Jalan Langsung Jadi:** Dilarang melakukan *commit* atau menganggap tugas selesai jika masih ada *error*, sekecil apa pun.
+- Agent **WAJIB** melakukan verifikasi menyeluruh (*build*, *compile*, *test*) secara internal.
+- Dilarang memberikan kode yang membutuhkan proses *debugging* panjang dari pihak User.
+
+---
+
 ## Checklist Sebelum Commit
 
 - [ ] Routing endpoint baru sudah divalidasi (`php artisan route:list`)
 - [ ] Migrasi sudah diverifikasi (`php artisan migrate --pretend`)
-- [ ] `dart analyze` tidak mengembalikan error
+- [ ] Unit Test untuk logika finansial sudah dibuat dan berstatus *PASS*
+- [ ] `dart analyze` tidak mengembalikan error (Zero Error Policy ditaati)
 - [ ] Tidak ada overflow linting warnings pada UI yang diubah
-- [ ] Kode baru sudah mengikuti `CODING_STANDARD.md`
+- [ ] Kode baru sudah mengikuti `CODING_STANDARD.md` (termasuk batas 300 baris)

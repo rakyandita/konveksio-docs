@@ -54,13 +54,25 @@ Untuk memastikan UI responsif dan bebas overflow pada berbagai ukuran layar pera
   ```
 - **Contoh Salah:** Menempatkan logika kalkulasi HPP, perubahan status, atau query kompleks langsung di dalam Controller.
 
+### Clean Code & Strict Validation
+- **No Fat Files:** Batas maksimum file di backend Laravel adalah **300 baris**. Jika lebih, pisahkan ke Trait, Service, atau Helper terpisah.
+- **Efisiensi:** Dilarang ada perulangan (loops) yang tidak berguna. Hindari N+1 query problem menggunakan *Eager Loading*.
+- **Zero Issue:** Kode harus benar-benar bersih (*clean*) tanpa *linting issues* atau potensi *unhandled exceptions*. Pastikan sistem jalan langsung jadi tanpa butuh *debugging* panjang.
+- **Maintainability & Logging:** Harus mudah di-*maintenance* dengan penulisan *error log* yang sangat jelas agar jika terjadi *crash*, penyebabnya mudah dilacak.
+
 ---
 
 ## Aturan Flutter UI
 
-### Batas Panjang File (Wajib Refactor)
-- File UI Flutter yang melebihi **300 baris** **WAJIB** dipecah (refactor) menjadi widget-widget terpisah.
+### Batas Panjang File (Hard Limit 300 Baris)
+- File UI Flutter maupun file logika apa pun yang melebihi **300 baris** **WAJIB** dipecah (refactor) menjadi bagian-bagian terpisah.
 - Strategi pemecahan:
   1. Ekstrak bagian besar menjadi `StatelessWidget` atau `StatefulWidget` tersendiri.
   2. Simpan widget yang dapat digunakan ulang di folder `widgets/` dalam feature folder yang sama.
   3. Hindari file UI monolitik yang menangani terlalu banyak state sekaligus.
+
+### State Management (Riverpod)
+- Gunakan **Riverpod** sebagai arsitektur State Management standar aplikasi Flutter Konveksio.
+
+### UI/UX Copywriting (Bahasa Konveksi)
+- Pastikan semua label UI, placeholder, dan *error message* menggunakan bahasa konveksi yang mudah dipahami *end-user* (misal: "Barang Cacat", "Kuitansi", "Potong Gaji", dsb), BUKAN bahasa teknis *developer*.

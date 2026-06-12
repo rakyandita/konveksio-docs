@@ -9,9 +9,9 @@
 
 | Komponen | Teknologi |
 |---|---|
-| Backend | Laravel (PHP) — REST API |
-| Database | PostgreSQL |
-| Mobile App | Flutter (Android + iOS dari 1 codebase) |
+| Backend | Laravel 10 (LTS) — REST API, PHP 8.1+ |
+| Database | PostgreSQL v14 (Safe Baseline) |
+| Mobile App | Flutter Stable Channel |
 | Hosting (tahap awal) | AnymHost Developer Hosting (shared hosting, Rp500rb/tahun) |
 | Hosting (tahap lanjut) | Migrasi ke VPS jika bisnis berkembang |
 | Notifikasi WA | WhatsApp API (Fonnte/Wablas) |
