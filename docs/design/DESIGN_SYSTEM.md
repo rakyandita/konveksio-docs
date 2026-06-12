@@ -45,7 +45,7 @@ _"Kelola Konveksi Tanpa Ribet"_
 | `--color-primary-200` | `#99F6E4` | Border hover, progress bar background |
 | `--color-primary-300` | `#5EEAD4` | Icon secondary, divider aktif |
 | `--color-primary-400` | `#2DD4BF` | Button hover, link hover |
-| `--color-primary-500` | `#14B8A6` | **Primary button, FAB, active nav (Biru Tosca)** |
+| `--color-primary-500` | `#14B8A6` | **Primary button, active nav (Biru Tosca)** |
 | `--color-primary-600` | `#0D9488` | **Primary dark, pressed state (Tosca Gelap)** |
 | `--color-primary-700` | `#0F766E` | **Header gradient end, deep state** |
 | `--color-primary-800` | `#115E59` | Text on light, badge dark |
@@ -54,7 +54,7 @@ _"Kelola Konveksi Tanpa Ribet"_
 ### 2.2 Gradien Utama
 
 ```css
-/* Primary Gradient — untuk header, FAB, CTA */
+/* Primary Gradient — untuk header, CTA */
 background: linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #14B8A6 100%);
 
 /* Shadow Gradient — untuk card elevation */
@@ -177,11 +177,8 @@ background: linear-gradient(180deg, #F0FDFA 0%, #FFFFFF 100%);
 - **Content max width:** 428px (mobile)
 - **Bottom nav height:** 64px
 - **App bar height:** 56px
-- **FAB size:** 56px (standard) / 40px (mini)
-- **FAB position:** Bottom-right, 16px dari edge, di atas bottom nav
-
-### 4.3 Safe Areas
-- Respect notch / dynamic island (iOS)
+- **Primary Button size:** 48px height
+- Tombol aksi utama disarankan diletakkan di dalam layout konten (contoh: di akhir form atau di header), hindari tombol *floating* yang mengganggu visibilitas data.c island (iOS)
 - Bottom padding: 64px + 16px (nav height + margin) = 80px
 
 ---
@@ -322,22 +319,13 @@ Tab Items (4 items):
   4. 👤 Profil
 ```
 
-### 5.6 Floating Action Button (FAB)
+### 5.6 Aksi Utama (Non-Floating)
 
-```
-Size: 56px × 56px
-Border Radius: 16px
-Background: linear-gradient(135deg, #0F766E, #14B8A6)
-Icon: + (white, 24px)
-Shadow: 0 6px 20px rgba(13, 148, 136, 0.35)
-Position: bottom-right, 16px dari edge, 80px dari bottom
-Pressed: scale(0.95), shadow reduced
+Berdasarkan *feedback*, penggunaan *Floating Action Button* (FAB) yang melayang **TIDAK DIIZINKAN** karena dapat menutupi data tabel/list di belakangnya.
 
-Expanded FAB (on tap):
-  - "+ Order Baru"
-  - "+ Pembayaran"  
-  - "+ Kasbon" (hanya Staff)
-```
+Sebagai gantinya:
+- Tombol tambah data diletakkan di **Header Section** (sudut kanan atas) atau sebagai **Fixed Bottom Bar** jika form sangat panjang.
+- Style menggunakan `Primary Button` biasa atau `Ghost Button` dengan Icon.
 
 ### 5.7 App Bar / Header
 
@@ -430,7 +418,7 @@ Animation: slide down + fade in
 | In-card action | 20px |
 | Inline with text | 16px |
 | Status / badge | 14px |
-| FAB | 24px |
+| Menu Utama | 24px |
 
 ### 6.3 Icon Style
 - **Stroke weight:** 1.5px (sesuai library)
@@ -510,11 +498,9 @@ Text: Inisial, 16px Bold, #FFFFFF
 ### 9.2 Adaptasi
 - Single column layout di mobile
 - Bottom navigation selalu tampil
-- FAB selalu tampil (kecuali di halaman form)
+- Tombol simpan pada form ditempatkan di akhir form (tidak melayang)
 - Pull-to-refresh di semua halaman list
 - Infinite scroll untuk daftar panjang (order, pelanggan)
-
----
 
 ## 10. Accessibility
 

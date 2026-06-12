@@ -42,7 +42,7 @@
 ## UF-02: Membuat Order Baru (Admin/Admin Cabang)
 
 ```
-[Dashboard] → [Tap FAB "+"] → [Pilih "Order Baru"]
+[Dashboard] → [Tap Tombol "Order Baru" di Header/Halaman Order] → [Pilih "Order Baru"]
     │
     ├── Step 1: Data Pelanggan
     │   ├── Cari pelanggan existing (autocomplete)

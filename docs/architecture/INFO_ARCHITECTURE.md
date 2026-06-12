@@ -16,20 +16,19 @@
 ├──────────┬──────────┬───────────┬───────────────────┤
 │ 🏠       │ 📋       │ ⚙️        │ 👤                │
 │ Beranda  │ Order    │ Produksi  │ Profil            │
-└──────────┴──────────┴───────────┴───────────────────┘
-                              │
-                         [FAB ＋]
-                    (Floating Action Button)
+└──────────┴──────────┴──────────┴───────────────────┘
 ```
 
-### 1.2 FAB Menu (Aksi Cepat)
+### 1.2 Menu Aksi Cepat (Header/Halaman Spesifik)
 
-Saat FAB ditekan, muncul menu expandable:
+Aksi utama ditempatkan pada tombol spesifik di setiap halaman (bukan floating button), atau pada menu header:
 
-| Role | Opsi FAB |
+| Role | Aksi Utama |
 |---|---|
-| Super Admin / Admin | + Order Baru, + Input Pembayaran |
-| Staff Produksi | + Handover Estafet, + Ajukan Kasbon |
+| Super Admin | Tambah Order, Tambah Cabang, Input Pembayaran |
+| Admin Cabang | Tambah Order, Input Kasbon, Terima Stok |
+| Pekerja | Scan QR Handover |
+| Admin Produksi | Update Status SPK, Setor Vendor |
 
 ---
 
@@ -297,7 +296,7 @@ Saat FAB ditekan, muncul menu expandable:
 | S-04 | Dashboard (Beranda) | Tab 1 | All (conditional content) |
 | S-05 | Daftar Order | Tab 2 | Admin+ |
 | S-06 | Detail Order | Daftar Order | Admin+ |
-| S-07 | Form Order Baru | FAB | Admin+ |
+| S-07 | Form Order Baru | Button Header | Admin+ |
 | S-08 | Form Edit Order | Detail Order | Admin+ |
 | S-09 | Form Input Pembayaran | Detail Order | Admin+ |
 | S-10 | Preview Invoice | Detail Order | Admin+ |
