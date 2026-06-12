@@ -445,14 +445,16 @@ graph TD
 
 ### 5.2 Entitas Utama & Field Summary
 
+> ⚠️ **Isolasi Cabang:** Semua entitas data terikat ke cabang. Lihat `docs/standard/SECURITY_PRIVACY_STANDARD.md` untuk kebijakan lengkap.
+
 | Entitas | Field Kunci |
 |---|---|
 | **Cabang** | id, nama, alamat, periode_gajian, hari_gajian |
-| **Karyawan** | id, nama, email, pin, kontak, posisi, cabang_id, role, status_aktif |
-| **Pelanggan** | id, nama, instansi, whatsapp, telepon, email, alamat |
-| **Vendor** | id, nama, kontak, alamat, kategori[], tarif_layanan[] |
-| **Produk** | id, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
-| **Order** | id, nomor_order, pelanggan_id, cabang_id, status, tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
+| **Karyawan** | id, nama, email, pin, kontak, posisi, **cabang_id**, role, status_aktif |
+| **Pelanggan** | id, **cabang_id**, nama, instansi, whatsapp, telepon, email, alamat |
+| **Vendor** | id, **cabang_id**, nama, kontak, alamat, kategori[], tarif_layanan[] |
+| **Produk** | id, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
+| **Order** | id, nomor_order, pelanggan_id, **cabang_id**, status, tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
 | **Order Item (SPK)** | id, order_id, produk_id, parent_bundle_id, no_spk, qty_s, qty_m, qty_l, qty_xl, qty_custom, bahan, warna, harga_satuan, desain_file, status |
 | **Tahap Produksi** | id, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, status, tarif_aktual, vendor_id |
 | **Porsi Pekerjaan** | id, tahap_produksi_id, karyawan_id, qty_assigned |
@@ -463,8 +465,9 @@ graph TD
 | **Pengiriman** | id, order_id, metode, nama_ekspedisi, nomor_resi, ongkir, tanggal_kirim, penerima |
 | **Transaksi Antar Cabang** | id, cabang_asal_id, cabang_tujuan_id, jenis, items[], total, tanggal |
 | **Notifikasi** | id, user_id, jenis, judul, pesan, is_read, data_ref, timestamp |
-| **Rekening** | id, nama_bank, nomor_rekening, atas_nama, is_active |
+| **Rekening** | id, **cabang_id**, nama_bank, nomor_rekening, atas_nama, is_active |
 | **Gaji** | id, karyawan_id, periode_mulai, periode_selesai, total_pcs, gaji_kotor, total_kasbon, potongan_lain, gaji_bersih, status |
+
 
 ---
 
