@@ -23,10 +23,10 @@
 
 ---
 
-## 6.3 Skalabilitas
+## 6.3 Skalabilitas & SaaS Readiness
 
 - Arsitektur modular agar mudah menambah cabang baru
-- Database schema mendukung multi-tenant (per cabang)
+- **Multi-Tenant Architecture:** Database schema wajib didesain menggunakan pendekatan *multi-tenant* dengan kolom `company_id` (Tenant) di setiap tabel utama (meskipun di Fase 1 MVP hanya diisi 1 *company*). Hal ini merupakan mitigasi dan persiapan transisi menuju SaaS di Fase 2 tanpa perlu merombak ulang database.
 - API versioning untuk backward compatibility
 
 ---
@@ -52,7 +52,7 @@
 
 ### Constraint
 1. Budget hosting terbatas (Rp500rb/tahun untuk tahap awal, space ~7GB)
-2. Shared hosting tidak bisa run queue worker 24/7 → gunakan cron job sebagai alternatif
+2. Shared hosting tidak bisa run queue worker 24/7 → gunakan cron job sebagai alternatif. *(Catatan: Di Fase 2 / SaaS, infrastruktur wajib pindah ke VPS)*.
 3. Karyawan lapangan mungkin punya device dengan spek rendah → app harus ringan
 4. Sinyal internet di area produksi sangat buruk → butuh offline support yang solid (CRITICAL)
 5. **Storage Media:** Wajib implementasi kompresi gambar (*image compression*) agresif di sisi Mobile App (Flutter) sebelum di-upload. Disarankan menggunakan arsitektur Hybrid Storage (menggabungkan hosting lokal dan CDN gratis).

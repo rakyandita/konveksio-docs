@@ -401,46 +401,46 @@ graph TD
 ### 5.1 Entity Relationship (Simplified)
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌──────────────────┐
-│   CABANG    │────<│   KARYAWAN   │────<│ LOG HANDOVER     │
-│             │     │ (User App)   │     │ (who, qty, when) │
-└──────┬──────┘     └──────┬───────┘     └────────┬─────────┘
-       │                   │                      │
-       │            ┌──────┴───────┐              │
-       │            │    KASBON    │              │
-       │            └──────────────┘              │
-       │                                          │
-┌──────┴──────┐     ┌──────────────┐     ┌────────┴─────────┐
-│    ORDER    │────<│ ORDER ITEM   │────<│ TAHAP PRODUKSI   │
-│             │     │ (SPK/Bundle) │     │ (Matriks Tarif)  │
-└──────┬──────┘     └──────────────┘     └──────────────────┘
-       │
-       │            ┌──────────────┐
-       ├───────────<│  PEMBAYARAN  │
-       │            │ (DP,cicilan) │
-       │            └──────────────┘
-       │
-       │            ┌──────────────┐
-       ├───────────<│  PENGIRIMAN  │
-       │            └──────────────┘
-       │
-┌──────┴──────┐
-│  PELANGGAN  │
-└─────────────┘
+┌─────────────┐     ┌─────────────┐     ┌──────────────┐     ┌──────────────────┐
+│ PERUSAHAAN  │────<│   CABANG    │────<│   KARYAWAN   │────<│ LOG HANDOVER     │
+│  (Tenant)   │     │             │     │ (User App)   │     │ (who, qty, when) │
+└─────────────┘     └──────┬──────┘     └──────┬───────┘     └────────┬─────────┘
+                           │                   │                      │
+                           │            ┌──────┴───────┐              │
+                           │            │    KASBON    │              │
+                           │            └──────────────┘              │
+                           │                                          │
+                    ┌──────┴──────┐     ┌──────────────┐     ┌────────┴─────────┐
+                    │    ORDER    │────<│ ORDER ITEM   │────<│ TAHAP PRODUKSI   │
+                    │             │     │ (SPK/Bundle) │     │ (Matriks Tarif)  │
+                    └──────┬──────┘     └──────────────┘     └──────────────────┘
+                           │
+                           │            ┌──────────────┐
+                           ├───────────<│  PEMBAYARAN  │
+                           │            │ (DP,cicilan) │
+                           │            └──────────────┘
+                           │
+                           │            ┌──────────────┐
+                           ├───────────<│  PENGIRIMAN  │
+                           │            └──────────────┘
+                           │
+                    ┌──────┴──────┐
+                    │  PELANGGAN  │
+                    └─────────────┘
 
-┌─────────────┐     ┌──────────────┐
-│   VENDOR    │────<│ TRX VENDOR   │
-└─────────────┘     └──────────────┘
+                    ┌─────────────┐     ┌──────────────┐
+                    │   VENDOR    │────<│ TRX VENDOR   │
+                    └─────────────┘     └──────────────┘
 
-┌─────────────┐     ┌──────────────┐
-│ PRODUK/BNDL │────<│ TARIF        │
-│  (Katalog)  │     │ (per tahap)  │
-└─────────────┘     └──────────────┘
+                    ┌─────────────┐     ┌──────────────┐
+                    │ PRODUK/BNDL │────<│ TARIF        │
+                    │  (Katalog)  │     │ (per tahap)  │
+                    └─────────────┘     └──────────────┘
 
-┌──────────────────────────┐
-│  TRANSAKSI ANTAR CABANG  │
-│ (cabang_asal, tujuan)    │
-└──────────────────────────┘
+                    ┌──────────────────────────┐
+                    │  TRANSAKSI ANTAR CABANG  │
+                    │ (cabang_asal, tujuan)    │
+                    └──────────────────────────┘
 ```
 
 ### 5.2 Entitas Utama & Field Summary
@@ -449,12 +449,13 @@ graph TD
 
 | Entitas | Field Kunci |
 |---|---|
-| **Cabang** | id, nama, alamat, telepon, email_cabang, info_invoice, periode_gajian, hari_gajian |
-| **Karyawan** | id, nama, email, pin, no_whatsapp, kontak, posisi, **cabang_id**, role, status_aktif |
-| **Pelanggan** | id, **cabang_id**, nama, instansi, whatsapp, telepon, email, alamat |
-| **Vendor** | id, **cabang_id**, nama, kontak, alamat, kategori[], tarif_layanan[] |
-| **Produk** | id, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
-| **Order** | id, nomor_order, pelanggan_id, **cabang_id**, status (termasuk CANCELLED), tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
+| **Perusahaan** | id, nama_perusahaan, domain_saas, status_langganan, masa_aktif |
+| **Cabang** | id, **company_id**, nama, alamat, telepon, email_cabang, info_invoice, periode_gajian, hari_gajian |
+| **Karyawan** | id, **company_id**, nama, email, pin, no_whatsapp, kontak, posisi, **cabang_id**, role, status_aktif |
+| **Pelanggan** | id, **company_id**, **cabang_id**, nama, instansi, whatsapp, telepon, email, alamat |
+| **Vendor** | id, **company_id**, **cabang_id**, nama, kontak, alamat, kategori[], tarif_layanan[] |
+| **Produk** | id, **company_id**, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
+| **Order** | id, **company_id**, nomor_order, pelanggan_id, **cabang_id**, status (termasuk CANCELLED), tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
 | **Order Item (SPK)** | id, order_id, produk_id, parent_bundle_id, no_spk, qty_s, qty_m, qty_l, qty_xl, qty_custom, bahan, warna, harga_satuan, desain_file, status |
 | **Tahap Produksi** | id, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, qty_reject, status, tarif_aktual, vendor_id |
 | **Porsi Pekerjaan** | id, tahap_produksi_id, karyawan_id, qty_assigned |

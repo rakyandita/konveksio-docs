@@ -27,9 +27,10 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 
 1. Digitalisasi seluruh alur order — dari input pesanan hingga pengiriman
 2. Menyediakan sistem estafet produksi agar karyawan bisa langsung handover tanpa birokrasi admin
-3. Otomatisasi kalkulasi HPP dan penggajian borongan
-4. Menyediakan public link invoice agar pelanggan bisa cek status pesanan & pembayaran secara mandiri
-5. Menyediakan dashboard real-time untuk owner & admin
+3. Membangun fondasi sistem agar kelak dapat diekspansi menjadi produk SaaS (Software as a Service) komersial untuk konveksi lain
+4. Otomatisasi kalkulasi HPP dan penggajian borongan
+5. Menyediakan public link invoice agar pelanggan bisa cek status pesanan & pembayaran secara mandiri
+6. Menyediakan dashboard real-time untuk owner & admin
 
 ---
 
@@ -215,6 +216,19 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 - **Update status** ke pelanggan via public link & WA
 
 ### 5.2 Fase 2 — Pengembangan Lanjutan (Post-MVP)
+
+Fitur yang **TIDAK MASUK** di rilis pertama (MVP) dan ditunda untuk pengembangan selanjutnya:
+1. Notifikasi *broadcast* massal ke pelanggan.
+2. Pengiriman resi & tagihan otomatis via WhatsApp API Bot (menghindari blokir WA di tahap awal).
+3. Modul manajemen inventaris & stok gudang bahan baku yang kompleks.
+4. Absensi karyawan berbasis GPS.
+5. Pendaftaran Vendor mandiri via portal eksternal.
+6. **Ekspansi SaaS (Software as a Service):**
+   - Transisi *infrastructure* ke Cloud/VPS.
+   - Modul registrasi *tenant* (Perusahaan) konveksi lain.
+   - Modul langganan (*Billing & Subscription*) per bulan/per user.
+   - *Payment Gateway* terintegrasi (Midtrans/Xendit) untuk bayar sewa aplikasi.
+   - Super-Admin Dashboard untuk *monitoring* klien *tenant*.
 
 | ID | Fitur | Keterangan |
 |---|---|---|
