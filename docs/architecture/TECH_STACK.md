@@ -9,7 +9,7 @@
 
 | Komponen | Teknologi |
 |---|---|
-| Backend | Laravel 10 (LTS) — REST API, PHP 8.1+ |
+| Backend | Laravel 13 — REST API, PHP 8.2+ |
 | Database | PostgreSQL v14 (Safe Baseline) |
 | Mobile App | Flutter Stable Channel |
 | Hosting (tahap awal) | AnymHost Developer Hosting (shared hosting, Rp500rb/tahun) |
