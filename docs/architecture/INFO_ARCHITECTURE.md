@@ -484,6 +484,7 @@ graph TD
 | Kasbon diajukan | Boss Cabang / Super Admin | "Kasbon Rp[X] diajukan oleh [Nama]" |
 | Kasbon di-approve | Karyawan pengaju | "Kasbon Rp[X] Anda telah disetujui ✅" |
 | Kasbon ditolak | Karyawan pengaju | "Kasbon Rp[X] Anda ditolak ❌" |
+| Perubahan Qty SPK | Staff di SPK terkait | "Info: Target produksi SPK [No_SPK] bertambah jadi [Qty] pcs" |
 
 ### 6.2 WhatsApp Notification (via API)
 

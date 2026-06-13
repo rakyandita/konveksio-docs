@@ -51,8 +51,10 @@
 
 ### Aturan Implementasi Teknis
 
-1. **Backend (Laravel):** Setiap API endpoint yang mengembalikan data WAJIB menerapkan **Global Scope** atau **Middleware** yang secara otomatis mem-filter query berdasarkan `cabang_id` dari user yang sedang login (kecuali role Super Admin).
-2. **Super Admin Bypass:** Jika user adalah Super Admin, filter cabang tidak diterapkan secara otomatis. Super Admin memilih cabang secara manual via filter UI.
+1. **Backend (Laravel) — Dua Lapis Global Scope:**
+   - **Lapis 1 — Tenant Isolation (`BelongsToTenant` trait):** Setiap model yang memiliki `company_id` WAJIB menggunakan trait ini. Mencegah data bocor antar perusahaan (krusial untuk SaaS).
+   - **Lapis 2 — Branch Isolation (`BelongsToBranch` trait):** Setiap model yang memiliki `branch_id` (Pelanggan, Vendor, Produk, Order, dll.) WAJIB menggunakan trait ini. Mencegah data bocor antar cabang dalam 1 perusahaan.
+2. **Super Admin Bypass:** Jika `user->role === 'super_admin'`, filter `branch_id` (Lapis 2) **tidak diterapkan** secara otomatis. Super Admin memilih cabang secara manual via filter UI.
 3. **Validasi Tulis (Create/Update/Delete):** Setiap operasi tulis WAJIB memvalidasi bahwa resource target milik cabang yang sama dengan user yang melakukan operasi. Jika tidak cocok → **403 Forbidden**.
 4. **Foreign Key Cross-Check:** Saat membuat relasi (misal: assign karyawan ke order), sistem WAJIB memvalidasi bahwa kedua entitas milik cabang yang sama.
 
