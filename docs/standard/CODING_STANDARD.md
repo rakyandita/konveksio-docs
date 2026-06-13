@@ -1,7 +1,8 @@
 # 📐 Coding Standard — Konveksio
 
-> **Versi:** 2.0 (Modular Refactor)
+> **Versi:** 3.0 (Response Format & Soft Delete Update)
 > **Sumber:** `docs/design_system.md` Bagian 12 + Penambahan Aturan Teknis
+> **Diperbarui:** 13 Juni 2026
 
 ---
 
@@ -40,19 +41,49 @@ Untuk memastikan UI responsif dan bebas overflow pada berbagai ukuran layar pera
 ### Service Pattern (Wajib)
 - Wajib menggunakan pattern `Service` untuk memisahkan logika bisnis dari `Controller`.
 - Setiap `Controller` hanya boleh berisi:
-  1. Validasi request
+  1. Validasi request (via FormRequest)
   2. Pemanggilan `Service`
-  3. Return response
+  3. Return response (mengikuti format `API_STANDARD.md`)
 - **Contoh Benar:**
   ```php
   // OrderController.php
-  public function store(OrderRequest $request, OrderService $service)
+  public function store(StoreOrderRequest $request, OrderService $service)
   {
       $order = $service->createOrder($request->validated());
-      return response()->json(['order' => $order], 201);
+      return response()->json([
+          'success' => true,
+          'message' => 'Order berhasil dibuat',
+          'data' => new OrderResource($order),
+      ], 201);
   }
   ```
 - **Contoh Salah:** Menempatkan logika kalkulasi HPP, perubahan status, atau query kompleks langsung di dalam Controller.
+
+### Response Format (Wajib)
+- Semua response **WAJIB** mengikuti format envelope yang didefinisikan di `API_STANDARD.md`
+- Untuk response collection, **WAJIB** menggunakan `JsonResource`
+- Response fields: `success`, `message`, `data`, `meta` (pagination), `errors` (validation)
+
+### Soft Delete
+- **WAJIB** untuk entitas transaksional: `Order`, `Pembayaran`, `Kasbon`, `Invoice`, `Pengeluaran`, `MutasiCabang`
+- Model wajib menggunakan trait `SoftDeletes`
+- Query default exclude soft-deleted (Laravel otomatis)
+- Untuk include soft-deleted: `Model::withTrashed()`
+- Untuk restore: `$model->restore()`
+
+### Eager Loading (Wajib)
+- Setiap query relasi **WAJIB** menggunakan eager loading (`with()`) untuk mencegah N+1
+- Contoh:
+  ```php
+  // ✅ BENAR
+  $orders = Order::with(['customer', 'orderItems.product'])->paginate();
+
+  // ❌ SALAH — N+1 problem
+  $orders = Order::all();
+  foreach ($orders as $order) {
+      echo $order->customer->nama; // Query per iteration!
+  }
+  ```
 
 ### Clean Code & Strict Validation
 - **No Fat Files:** Batas maksimum file di backend Laravel adalah **300 baris**. Jika lebih, pisahkan ke Trait, Service, atau Helper terpisah.

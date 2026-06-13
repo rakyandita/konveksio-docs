@@ -13,8 +13,8 @@
 
 > **Input:** Chat User / Scan Folder
 
-1. Scan file sistem untuk seluruh 12 dokumen SOT di `docs/` berdasarkan struktur di `DOCUMENTATION_STANDARD.md`.
-2. Jika 12 dokumen SOT eksis DAN memiliki konten spesifikasi yang substantif (bukan sekadar file kosong): Lanjut ke Fase 1.
+1. Scan file sistem untuk seluruh **17 dokumen SOT** di `docs/` berdasarkan struktur di `DOCUMENTATION_STANDARD.md`.
+2. Jika 17 dokumen SOT eksis DAN memiliki konten spesifikasi yang substantif (bukan sekadar file kosong): Lanjut ke Fase 1.
 3. Jika struktur dokumen SOT belum lengkap: Agent WAJIB mewawancarai user untuk mendapatkan data yang hilang dan men-generate file SOT yang kurang.
 
 ---

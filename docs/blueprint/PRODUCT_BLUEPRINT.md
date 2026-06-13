@@ -93,7 +93,12 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 - **Produk Bundle (Setelan):** Jika memilih produk bertipe bundle (misal: "Seragam Pramuka"), sistem otomatis men-*expand* menjadi beberapa sub-item pesanan (misal: "Kemeja" dan "Celana"), masing-masing memiliki SPK dan jalur produksi terpisah, namun di invoice pelanggan tetap tampil sebagai 1 item "Seragam Pramuka".
 - **Status Order:** Pending → DP Diterima → Diproduksi → Siap Kirim → Pelunasan → Dikirim → Selesai → Dibatalkan
   - Catatan: Pembayaran sangat fleksibel (bisa mulai produksi tanpa DP, bisa lunas di awal, atau kirim dulu baru pelunasan).
-  - Jika Dibatalkan: Uang DP hangus, karyawan yang telanjur bekerja tetap dibayarkan gajinya.
+  - **Pembatalan Order:**
+    - Hanya **Super Admin** dan **Admin Cabang** yang bisa membatalkan order.
+    - Order yang sudah masuk status "Diproduksi" membutuhkan **konfirmasi pembatalan** (dialog konfirmasi dengan alasan wajib).
+    - Jika Dibatalkan: Uang DP hangus, karyawan yang telanjur bekerja tetap dibayarkan gajinya.
+    - Pembatalan **per item** (sebagian) diperbolehkan — item yang dibatalkan dihapus dari produksi, item lain tetap berjalan.
+    - Pembatalan tercatat di audit trail (siapa yang batalkan, kapan, alasan).
 - **Pencarian & Filter:** berdasarkan status, pelanggan, tanggal, cabang
 - **Persiapan Produksi:** Status pesanan "Pending" tidak otomatis masuk produksi. Admin harus menekan tombol "Persiapan Produksi" yang terdapat pada **setiap kartu item pesanan** (di halaman Detail Order) untuk mengatur tahapan produksi, tarif jasa, dan men-*generate* SPK per item pesanan. Jika pesanan bertipe Bundle/Setelan, maka setiap komponen anak harus dilakukan Persiapan Produksi secara independen.
 
@@ -126,6 +131,9 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 - **Override Harga Aktual:** Saat rilis produksi, admin bisa meng-edit tarif dari master data khusus untuk order tersebut.
 - **Kalkulator Biaya Bahan (MVP):** Di form Persiapan Produksi, admin meng-input Biaya Bahan Baku dibantu dengan kalkulator sederhana (Kebutuhan bahan per pcs × harga satuan × qty order) karena modul stok belum tersedia di Fase 1.
 - **Kalkulasi HPP otomatis:** Total HPP = Σ (tarif per tahap × qty aktual yang dikerjakan) + biaya bahan + biaya vendor.
+  - **Timing kalkulasi:** HPP dihitung **real-time** setiap kali ada perubahan (tarif, qty, biaya bahan, biaya vendor). Tidak disimpan statis.
+  - HPP ditampilkan di Detail Order dan di Laporan Keuangan.
+  - Jika qty berubah di tengah produksi (bertambah/kurang), HPP otomatis recalculate.
 - **Margin & harga jual:** Tampilkan selisih antara HPP vs harga jual.
 
 #### M-05: Invoice & Pembayaran
@@ -182,7 +190,12 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
   - Tersedia per periode (mingguan & bulanan)
 - **Kasbon karyawan:**
   - Input harian oleh karyawan
-  - Limit kasbon mingguan: Rp500.000 (configurable)
+  - Limit kasbon mingguan: Rp500.000 (configurable per cabang)
+    - **Definisi "minggu":** Senin 00:00 s/d Minggu 23:59, reset setiap Senin.
+    - **Limit per karyawan** (bukan per cabang).
+    - Kasbon yang **ditolak TIDAK memotong limit** mingguan.
+    - Kasbon yang **di-approve** memotong limit sesuai jumlah yang disetujui.
+    - Sisa limit = Limit mingguan − Total kasbon approved minggu ini.
   - Push notification ke boss cabang / super admin untuk approval
   - Notifikasi ke karyawan jika disetujui/ditolak
   - Riwayat kasbon & saldo kasbon
@@ -205,6 +218,10 @@ Bisnis konveksi milik user saat ini menghadapi kendala operasional:
 #### M-12: Transaksi Antar Cabang
 - Pencatatan pembelian/penjualan antar cabang
 - Contoh: Cabang Serang beli seragam batik jadi dari Cabang Solo
+- **Mekanisme pembukuan:**
+  - Dicatat sebagai **pengeluaran** di cabang asal (Serang) dan **pemasukan** di cabang tujuan (Solo).
+  - Satu transaksi menghasilkan 2 record: satu `Pengeluaran` di Serang, satu `Pemasukan` (kategori: transaksi antar cabang) di Solo.
+  - Rekonsiliasi: Total pengeluaran cabang A ke cabang B harus sama dengan total pemasukan cabang B dari cabang A per periode.
 - Tercatat di laporan keuangan masing-masing cabang
 
 #### M-13: Pengiriman

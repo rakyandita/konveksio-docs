@@ -1,7 +1,8 @@
 # 🤖 AI Agent Standard — Konveksio
 
-> **Versi:** 2.0 (Modular Refactor)
+> **Versi:** 3.0 (Full SOT Coverage)
 > **Sumber:** Universal Boilerplate SOT
+> **Diperbarui:** 13 Juni 2026
 
 ---
 
@@ -19,6 +20,11 @@ Segala bentuk output kode WAJIB merujuk pada dokumen SOT utama:
 - `docs/standard/CODING_STANDARD.md` — Coding Standards
 - `docs/standard/WORKFLOW_STANDARD.md` — Workflow
 - `docs/standard/TESTING_STANDARD.md` — Aturan Validasi Kualitas
+- `docs/standard/API_STANDARD.md` — Format & Konvensi API
+- `docs/standard/NAMING_CONVENTION.md` — Konvensi Penamaan
+- `docs/standard/ERROR_HANDLING_STANDARD.md` — Strategi Error Handling
+- `docs/standard/GIT_STANDARD.md` — Branch, Commit & Release
+- `docs/standard/DATA_MIGRATION_STANDARD.md` — Migration & Seeder
 - `docs/standard/DOCUMENTATION_STANDARD.md` — Aturan Log Requirement
 - `docs/standard/AI_AGENT_STANDARD.md` — Aturan Disiplin Agent
 
@@ -66,3 +72,7 @@ Sebelum dan sesudah menulis kode, Agent **WAJIB** melakukan cross-check dengan s
 2. **Aturan Arsitektur & Performa:** `SYSTEM_ARCHITECTURE.md` (Offline Support) & `TECH_STACK.md`
 3. **Aturan Alur & Akses:** `USER_FLOWS.md` (Logika Bisnis) & `SECURITY_PRIVACY_STANDARD.md` (RBAC)
 4. **Aturan Validasi Kualitas:** `TESTING_STANDARD.md` (Validasi route & syntax error)
+5. **Aturan API:** `API_STANDARD.md` (Response format) & `NAMING_CONVENTION.md` (Penamaan)
+6. **Aturan Error Handling:** `ERROR_HANDLING_STANDARD.md` (Exception & logging)
+7. **Aturan Git:** `GIT_STANDARD.md` (Commit message & branch)
+8. **Aturan Database:** `DATA_MIGRATION_STANDARD.md` (Migration & seeder)

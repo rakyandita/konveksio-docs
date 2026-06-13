@@ -1,8 +1,8 @@
 # 🔐 Security & Privacy Standard — Konveksio
 
-> **Versi:** 3.0 (Branch Isolation Update)
+> **Versi:** 4.0 (Token, Rate Limit & Audit Trail Update)
 > **Sumber:** `docs/requirement_spec.md` Bagian 4.2 (Matriks Hak Akses / RBAC)
-> **Diperbarui:** 12 Juni 2026
+> **Diperbarui:** 13 Juni 2026
 
 ---
 
@@ -104,3 +104,147 @@
 - Wajib implementasi **input validation & sanitization** di semua endpoint
 - Kredensial biometrik disimpan menggunakan **flutter_secure_storage** (Keychain/EncryptedSharedPreferences)
 - **Branch scope enforcement** di setiap API endpoint (Laravel Global Scope / Middleware)
+
+---
+
+## Token Management
+
+| Aspek | Nilai | Keterangan |
+|---|---|---|
+| JWT Token TTL | **60 menit** | Token expired setelah 1 jam |
+| Refresh Token TTL | **7 hari** | Refresh token berlaku 1 minggu |
+| Refresh Endpoint | `POST /api/v1/auth/refresh` | Return token baru |
+| Logout | `POST /api/v1/auth/logout` | Blacklist token yang aktif |
+| Token Blacklist | Via JWT blacklist cache | Token yang sudah logout tidak bisa dipakai |
+| JWT Claims Wajib | `user_id`, `company_id`, `cabang_id`, `role` | Untuk branch isolation & RBAC |
+| Token Refresh Rotation | Ya | Token lama di-invalidate saat refresh |
+
+### Aturan Token
+
+1. **Jangan simpan token di localStorage** — gunakan `flutter_secure_storage` (Keychain di iOS, EncryptedSharedPreferences di Android)
+2. **Auto-refresh:** Jika token expired, Flutter otomatis coba refresh. Jika refresh gagal → redirect ke login
+3. **Token di response login:** Backend return `token`, `token_type`, `expires_in` (dalam detik)
+4. **Blacklist setelah logout:** Token yang sudah logout WAJIB masuk blacklist agar tidak bisa dipakai lagi
+
+---
+
+## Rate Limiting
+
+> Mencegah brute force, DDoS, dan penyalahgunaan API.
+
+| Endpoint / Group | Limit | Window | Keterangan |
+|---|---|---|---|
+| `POST /api/v1/auth/login` | **5 request** | per menit | Per IP, mencegah brute force |
+| `POST /api/v1/auth/refresh` | **10 request** | per menit | Per user |
+| API umum (authenticated) | **60 request** | per menit | Per user |
+| Public endpoint (invoice) | **30 request** | per menit | Per IP |
+| File upload | **10 request** | per menit | Per user |
+
+### Implementasi
+
+Gunakan Laravel built-in rate limiter:
+
+```php
+// Di bootstrap/app.php atau RouteServiceProvider
+RateLimiter::for('login', function (Request $request) {
+    return Limit::perMinute(5)->by($request->ip());
+});
+
+RateLimiter::for('api', function (Request $request) {
+    return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+});
+```
+
+### Response Saat Limit Tercapai
+
+```json
+{
+  "success": false,
+  "message": "Terlalu banyak percobaan. Silakan coba lagi dalam 1 menit."
+}
+```
+
+HTTP Status: **429 Too Many Requests**
+
+---
+
+## Audit Trail
+
+> Setiap operasi penting WAJIB tercatat agar bisa ditelusuri.
+
+### Aturan Audit Log
+
+- **Library:** `spatie/laravel-activitylog` (^4.0)
+- **Model yang WAJIB di-audit:** Order, Pembayaran, Kasbon, Invoice, User, Pengeluaran, MutasiCabang
+- **Event yang di-log:** `created`, `updated`, `deleted`
+
+### Data yang Tercatat
+
+| Field | Keterangan |
+|---|---|
+| `causer_id` | ID user yang melakukan aksi |
+| `causer_type` | Tipe user (App\Models\User) |
+| `subject_type` | Tipe model (App\Models\Order) |
+| `subject_id` | ID model yang diubah |
+| `description` | Deskripsi aksi ("created", "updated", "deleted") |
+| `properties` | JSON berisi `attributes` (data baru) dan `old` (data lama) |
+| `ip_address` | IP address user |
+| `created_at` | Timestamp aksi |
+
+### Implementasi
+
+```php
+// Di Model
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
+class Order extends Model
+{
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'total_harga', 'catatan'])
+            ->logOnlyDirty(); // Hanya log field yang berubah
+    }
+}
+```
+
+### Query Audit Log
+
+```php
+// Lihat semua aktivitas user tertentu
+Activitylog::forSubject($order)->get();
+
+// Lihat siapa yang mengubah status order
+Activitylog::forSubject($order)
+    ->where('description', 'updated')
+    ->get();
+```
+
+---
+
+## File Upload Validation
+
+| Aspek | Aturan |
+|---|---|
+| **Max file size** | 5 MB |
+| **Allowed MIME types** | `jpg`, `jpeg`, `png`, `pdf` |
+| **Storage** | `storage/app/public/` dengan symlink |
+| **Filename** | UUID + extension (`a1b2c3d4-e5f6.jpg`) — JANGAN pakai nama asli file |
+| **Virus scan** | Opsional di Fase 1, wajib di Fase 2 (SaaS) |
+
+### Validasi di FormRequest
+
+```php
+'bukti_transfer' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+'desain_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+```
+
+### Aturan Keamanan File
+
+1. **Jangan pernah trust MIME type dari client** — validasi ulang di server menggunakan `fileinfo` extension
+2. **Jangan simpan file dengan nama asli** — gunakan UUID untuk mencegah path traversal
+3. **Jangan expose path absolut** — return path relatif di response
+4. **Set permission yang tepat** — file upload tidak boleh executable
