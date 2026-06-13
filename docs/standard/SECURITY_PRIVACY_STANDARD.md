@@ -36,18 +36,18 @@
 | **Vendor** | ✅ `cabang_id` | Langsung | Vendor lokal per cabang. Jika vendor yang sama melayani 2 cabang, dibuat sebagai 2 record terpisah. |
 | **Produk & Katalog** | ✅ `cabang_id` | Langsung | Katalog produk & tarif per tahap bisa berbeda antar cabang (Serang=borongan, Solo=CMT). |
 | **Order** | ✅ `cabang_id` | Langsung | Order dibuat di cabang tertentu |
-| **Order Item (SPK)** | ✅ via `order.cabang_id` | Inherit | Mengikuti order induknya |
-| **Tahap Produksi** | ✅ via `order_item.order.cabang_id` | Inherit | Mengikuti order item induknya |
+| **Order Item (SPK)** | ✅ `cabang_id` | Langsung (Denorm) | Denormalisasi untuk performa query |
+| **Tahap Produksi** | ✅ `cabang_id` | Langsung (Denorm) | Denormalisasi untuk performa query |
 | **Pembayaran** | ✅ via `order.cabang_id` | Inherit | Mengikuti order induknya |
-| **Invoice** | ✅ via `order.cabang_id` | Inherit | Mengikuti order induknya |
+| **Invoice** | ✅ `cabang_id` | Langsung (Denorm) | Denormalisasi untuk performa query |
 | **Pengiriman** | ✅ via `order.cabang_id` | Inherit | Mengikuti order induknya |
 | **Kasbon** | ✅ via `karyawan.cabang_id` | Inherit | Admin hanya approve kasbon karyawan cabangnya |
 | **Gaji** | ✅ via `karyawan.cabang_id` | Inherit | Admin hanya rekap gaji karyawan cabangnya |
 | **Rekening** | ✅ `cabang_id` | Langsung | Setiap cabang punya rekening bank sendiri |
 | **Notifikasi** | ✅ via `user.cabang_id` | Inherit | Notifikasi hanya terkirim ke user di cabang yang relevan |
 | **Transaksi Antar Cabang** | ✅ `cabang_asal_id` + `cabang_tujuan_id` | Khusus | Satu-satunya entitas yang melibatkan 2 cabang sekaligus |
-| **Log Handover** | ✅ via `tahap_produksi` chain | Inherit | Mengikuti rantai order item → order → cabang |
-| **Porsi Pekerjaan** | ✅ via `tahap_produksi` chain | Inherit | Mengikuti rantai order item → order → cabang |
+| **Log Handover** | ✅ `cabang_id` | Langsung (Denorm) | Denormalisasi untuk performa query |
+| **Porsi Pekerjaan** | ✅ `cabang_id` | Langsung (Denorm) | Denormalisasi untuk performa query |
 
 ### Aturan Implementasi Teknis
 
@@ -79,7 +79,7 @@
 | Rekap Gaji | ✅ (semua cabang) | ✅ (cabang sendiri) | ❌ (Read own slip) |
 | Approve Kasbon | ✅ (semua cabang) | ✅ (cabang sendiri) | ❌ |
 | Ajukan Kasbon | ✅ | ✅ | ✅ |
-| Setting Tarif Borongan | ✅ (semua cabang) | ❌ | ❌ |
+| Setting Tarif Borongan | ✅ (semua cabang) | ✅ (cabang sendiri) | ❌ |
 | Kelola Role & User | ✅ | ❌ | ❌ |
 | Transaksi Antar Cabang | ✅ | ✅ (cabang sendiri sebagai asal/tujuan) | ❌ |
 | Katalog Produk & Bundle | ✅ (semua cabang) | ✅ (cabang sendiri) | ❌ |

@@ -453,14 +453,14 @@ graph TD
 | **Karyawan** | id, **company_id**, nama, email, pin, no_whatsapp, kontak, posisi, **cabang_id**, role, status_aktif |
 | **Pelanggan** | id, **company_id**, **cabang_id**, nama, instansi, whatsapp, telepon, email, alamat |
 | **Vendor** | id, **company_id**, **cabang_id**, nama, kontak, alamat, kategori[], tarif_layanan[] |
-| **Produk** | id, **company_id**, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], tarif_produksi[] |
+| **Produk** | id, **company_id**, **cabang_id**, nama, kategori, tipe(single/bundle), komponen_bundle[], model_pakaian_id |
 | **Order** | id, **company_id**, nomor_order, pelanggan_id, **cabang_id**, status (termasuk CANCELLED), tanggal_dibuat, deadline, metode_kirim, total_harga, catatan |
-| **Order Item (SPK)** | id, order_id, produk_id, parent_bundle_id, no_spk, qty_s, qty_m, qty_l, qty_xl, qty_custom, bahan, warna, harga_satuan, desain_file, status |
-| **Tahap Produksi** | id, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, qty_reject, status, tarif_aktual, vendor_id |
-| **Porsi Pekerjaan** | id, tahap_produksi_id, karyawan_id, qty_assigned |
-| **Log Handover** | id, tahap_dari_id, tahap_ke_id, karyawan_id, qty_per_size{}, qty_reject, is_paid_rework, catatan, timestamp |
+| **Order Item (SPK)** | id, **company_id**, **cabang_id**, order_id, produk_id, parent_bundle_id, no_spk, qty_s, qty_m, qty_l, qty_xl, qty_custom, bahan, warna, harga_satuan, biaya_bahan, desain_file, status |
+| **Tahap Produksi** | id, **company_id**, **cabang_id**, order_item_id, nama_tahap, urutan, qty_target, qty_selesai, qty_reject, status, tarif_aktual, biaya_vendor, vendor_id |
+| **Porsi Pekerjaan** | id, **company_id**, **cabang_id**, tahap_produksi_id, karyawan_id, qty_assigned |
+| **Log Handover** | id, **company_id**, **cabang_id**, tahap_dari_id, tahap_ke_id, karyawan_id, qty_per_size{}, qty_reject, is_paid_rework, catatan, timestamp |
 | **Pembayaran** | id, order_id, jenis(DP/cicilan/pelunasan), jumlah, tanggal, metode, file_kuitansi, catatan |
-| **Invoice** | id, order_id, nomor_invoice, public_link_code, qr_code, tanda_tangan, status |
+| **Invoice** | id, **company_id**, **cabang_id**, order_id, nomor_invoice, public_link_code, qr_code, tanda_tangan, status |
 | **Kasbon** | id, karyawan_id, jumlah, keperluan, status(pending/approved/rejected), approved_by, tanggal |
 | **Pengeluaran** | id, **cabang_id**, kategori, jumlah, tanggal, deskripsi, vendor_id (opsional) |
 | **Pengiriman** | id, order_id, metode, nama_ekspedisi, nomor_resi, ongkir, tanggal_kirim, penerima |
@@ -468,6 +468,8 @@ graph TD
 | **Notifikasi** | id, user_id, jenis, judul, pesan, is_read, data_ref, timestamp |
 | **Rekening** | id, **cabang_id**, nama_bank, nomor_rekening, atas_nama, is_active |
 | **Gaji** | id, karyawan_id, periode_mulai, periode_selesai, total_pcs, gaji_kotor, total_kasbon, potongan_lain, gaji_bersih, status |
+| **Model Pakaian** | id, **company_id**, **cabang_id**, nama, deskripsi |
+| **Master Tarif** | id, **company_id**, **cabang_id**, nama_tahap, model_pakaian_id, tarif_satuan |
 
 
 ---
