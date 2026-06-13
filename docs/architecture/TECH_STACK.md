@@ -112,6 +112,7 @@ php -r "new PDO('pgsql:host=localhost;dbname=konveksio', 'user', 'pass');"
 
 | Package | Fungsi | Kapan Ditambahkan |
 |---|---|---|
+| `material_symbols_icons` | Fallback icon jika Lucide tidak punya | Hanya per-ikon niche (mesin jahit, dll) — lihat DESIGN_SYSTEM.md 6.5 |
 | `flutter_pdfview` | Preview PDF in-app | Saat fitur preview invoice |
 | `printing` | Print / share PDF | Saat fitur print invoice |
 | `flutter_local_notifications` | Local notification | Reminder offline |

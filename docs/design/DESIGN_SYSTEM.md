@@ -411,6 +411,23 @@ Animation: slide down + fade in
 **Library:** Lucide Icons (konsisten, modern, open source)
 - Alternatif: Phosphor Icons
 
+**Fallback Policy:**
+Jika Lucide Icons tidak memiliki ikon spesifik yang dibutuhkan (misal: ikon mesin jahit, ikon konveksi niche, atau ikon domain-specific lainnya), **Material Symbols Outlined** (`material_symbols_icons` Flutter package) boleh digunakan sebagai fallback **hanya untuk ikon tersebut**.
+
+Aturan fallback:
+- **DILARANG** mencampur kedua library secara global — Lucide tetap primary, Material Symbols hanya per-ikon
+- Ikon fallback harus dicatat di dokumen ini (Section 6.5 Fallback Icons) agar terdokumentasi
+- Gunakan style yang konsisten: stroke weight mendekati 1.5px, size sesuai tabel 6.2
+
+```dart
+// ✅ BENAR: Lucide sebagai default, Material Symbols sebagai fallback per-ikon
+Icon(LucideIcons.scissors)       // default — Lucide
+Icon(Icons.precision_manufacturing) // fallback — hanya jika Lucide tidak punya
+
+// ❌ SALAH: Pakai Material Symbols untuk ikon yang sudah ada di Lucide
+Icon(Icons.home)                 // salah — LucideIcons.home sudah ada
+```
+
 ### 6.2 Icon Sizes
 | Context | Size |
 |---|---|
@@ -442,6 +459,16 @@ Animation: slide down + fade in
 | **Ajukan Kasbon** | `Coins` / `coins` | Dua koin bertumpuk bergradasi | Pinjaman uang muka karyawan |
 | **Riwayat Handover** | `History` / `history` | Jam berputar melingkar | Riwayat pengerjaan borongan |
 | **Slip Gaji Saya** | `Receipt` / `receipt` | Struk belanja bergerigi di bawah | Slip gaji digital bulanan |
+
+### 6.5 Fallback Icons Log
+
+Daftar ikon yang menggunakan **Material Symbols Outlined** sebagai fallback karena Lucide Icons tidak memiliki padanan yang sesuai.
+
+| Konteks | Material Symbol | Alasan Fallback |
+|---|---|---|
+| *(belum ada — isi saat development)* | | |
+
+> **Cara menambah:** Saat Agent membutuhkan ikon yang tidak ada di Lucide, tambahkan baris baru di tabel ini dengan konteks, nama Material Symbol, dan alasan fallback.
 
 ---
 
