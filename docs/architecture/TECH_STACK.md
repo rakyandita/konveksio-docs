@@ -106,7 +106,8 @@ php -r "new PDO('pgsql:host=localhost;dbname=konveksio', 'user', 'pass');"
 | `permission_handler` | Request permissions | Camera, storage access |
 | `firebase_core` + `firebase_messaging` | FCM push notification | Notifikasi real-time |
 | `connectivity_plus` | Cek koneksi internet | Offline mode detection |
-| `lucide_icons` | Icon set | Sesuai DESIGN_SYSTEM |
+| `lucide_icons_flutter` | Icon set | Sesuai DESIGN_SYSTEM |
+| `fl_chart` | Grafik/Chart | Visualisasi data Dashboard |
 
 ### 4.2 Package Opsional
 
